@@ -64,26 +64,47 @@ const ItemList = ({ items, people, addPersonToItem }) => {
     </div>
   );
 };
-const PersonList = ({ people }) =>
+const PersonList = ({ people, items }) => {
+  console.log('people in PersonList :>> ', people);
+  // create a tally for each person
+  const peopleTally = {};
+  people.forEach((person) => peopleTally[person] = 0);
+
+  items.forEach((item) => {
+    const { price } = item;
+    const costPerPax = price / item.people.length;
+    item.people.forEach((person) => {
+      peopleTally[person] += costPerPax;
+    });
+  });
+  const peopleElem = people.map((person) => (
+
+    <p key={person}>
+      {person}
+      {' '}
+      $
+      {peopleTally[person]}
+    </p>
+
+  ));
   // amount owed per person
-  (
-    <div>PersonList</div>
-  )
-;
+  return (
+    <div>{peopleElem}</div>
+  ); };
 
 // update total bill based of itemlist
-export default function BillElem({ items, people }) {
-  // const peopleObj = {};
-  // people.forEach((person) => { peopleObj[person] = 0; });
-  // const [personalBills, setPersonalBills] = useState(peopleObj);
-  const itemsObj = {};
-  items.forEach((item) => { itemsObj[item] = []; });
-  const [itemsPeople, setItemPeople] = useState(itemsObj);
+export default function BillElem({ items, setItems, people }) {
+  console.log('items :>> ', items);
 
   const addPersonToItem = (item, person) => {
-    const updateItemPeople = { ...itemsPeople };
-    itemsObj[item].push(person);
-    setItemPeople({ ...itemsPeople });
+    console.log('items :>> ', items);
+    console.log('item :>> ', item);
+    const itemObj = items.filter((_) => _.name === item.name)[0];
+    console.log('itemObj :>> ', itemObj);
+
+    itemObj.people.push(person);
+
+    setItems([...items]);
   };
   const handleSubmit = () => {
     // save bill to db?
@@ -92,8 +113,8 @@ export default function BillElem({ items, people }) {
   };
   return (
     <div>
-      <ItemList items={items} people={people} addPersonToItem={addPersonToItem} />
-      <PersonList people={people} itemsPeople={itemsPeople} />
+      <ItemList key="itemList" items={items} people={people} addPersonToItem={addPersonToItem} />
+      <PersonList key="personlst" people={people} items={items} />
       <h1>Total bill is: </h1>
       <button type="submit" onClick={handleSubmit}>Save Bill</button>
     </div>

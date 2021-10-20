@@ -13,6 +13,8 @@ export default function App() {
 
   console.log('itemList :>> ', itemList);
   console.log('peopleList :>> ', peopleList);
+
+  // calculate each person's bill at the end and add to the db when saving bill
   const addToItems = (item) => {
     setItemList([...itemList, item]);
   };
@@ -36,7 +38,7 @@ export default function App() {
     <div>
       {!isBillCreated && <CreateBill addItem={addBill} />}
       {isBillCreated && <FormElem addToItems={addToItems} addToPeople={addToPeople} />}
-      {isBillCreated && <BillElem items={itemList} people={peopleList} />}
+      {isBillCreated && <BillElem items={itemList} setItems={setItemList} people={peopleList} />}
 
     </div>
   );

@@ -11,6 +11,7 @@ function ItemForm({ addToItems }) {
     const item = {
       name,
       price,
+      people: [],
     };
     addToItems(item);
   };
@@ -18,7 +19,7 @@ function ItemForm({ addToItems }) {
   return (
     <div>
       <input type="text" placeholder="Item" onChange={(e) => setName(e.target.value)} />
-      <input type="text" placeholder="Price" onChange={(e) => setPrice(e.target.value)} />
+      <input type="number" placeholder="Price" onChange={(e) => setPrice(Number(e.target.value))} />
       <button type="submit" onClick={handleSubmit}>Submit</button>
     </div>
   );
