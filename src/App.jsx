@@ -36,7 +36,7 @@ export default function App() {
     <div>
       {!isBillCreated && <CreateBill addItem={addBill} />}
       {isBillCreated && <FormElem addToItems={addToItems} addToPeople={addToPeople} />}
-      {isBillCreated && <BillElem />}
+      {isBillCreated && <BillElem items={itemList} people={peopleList} />}
 
     </div>
   );
